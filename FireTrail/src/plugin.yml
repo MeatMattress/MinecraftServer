@@ -1,0 +1,8 @@
+name: FireTrails
+version: 1.0
+author: Meat_Mattress
+main: me.Meat_Mattress.FireTrail.Main
+description: none
+commands:
+  fireTrail:
+    aliases: [ft]
