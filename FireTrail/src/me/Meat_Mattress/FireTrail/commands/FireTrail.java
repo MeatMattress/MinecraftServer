@@ -20,8 +20,6 @@ public class FireTrail implements Listener {
 	public void onMove(PlayerMoveEvent event) throws InterruptedException {
 		if (Main.toggleList.get(event.getPlayer()) == true) {
 		    double dist = event.getPlayer().getLocation().distance(Main.playersPrevLoc.get(event.getPlayer()));
-		    // Okay my idea is to build an arrayList of block locations of every block
-		    // I've stepped on before the distance is >= 2. Then set all the blocks on fire and update hashmap.
 		    if(dist >= 1) {
 		    	Block toSet = Main.playersPrevLoc.get(event.getPlayer()).subtract(0,1,0).getBlock();
 		    	plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
@@ -32,7 +30,6 @@ public class FireTrail implements Listener {
 		    	    }
 		    	
 		    	}, 2);
-		    	//Main.playersPrevLoc.get(event.getPlayer()).subtract(0,1,0).getBlock().getRelative(BlockFace.UP).setType(Material.FIRE);
 		    	Main.playersPrevLoc.put(event.getPlayer(), event.getPlayer().getLocation());
 		    }
 		}
