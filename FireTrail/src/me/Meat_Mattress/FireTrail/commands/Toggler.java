@@ -22,7 +22,8 @@ public class Toggler implements CommandExecutor, Listener {
 	public void PlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         Main.toggleList.put(player, false);
-        player.sendMessage("You have been added to the toggle list (off)");
+        Main.playersPrevLoc.put(event.getPlayer(), event.getPlayer().getLocation());
+        player.sendMessage("You have been added to the toggle list (off). use /fireTrail on to enable (for all)");
     }
 
 	@Override

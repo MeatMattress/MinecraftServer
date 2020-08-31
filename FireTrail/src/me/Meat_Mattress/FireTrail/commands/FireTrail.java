@@ -1,5 +1,5 @@
 package me.Meat_Mattress.FireTrail.commands;
-import org.bukkit.Location;
+
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -17,16 +17,23 @@ public class FireTrail implements Listener {
 	}
 	
 	@EventHandler
-	public void onMove(PlayerMoveEvent event) {
+	public void onMove(PlayerMoveEvent event) throws InterruptedException {
 		if (Main.toggleList.get(event.getPlayer()) == true) {
-		    Location to = event.getTo();
-		    Location from = event.getFrom();
-		    Block prev = from.subtract(0,1,0).getBlock(); // gets block underneath player
-		    if (to.getBlockX() == from.getBlockX() && to.getBlockY() == from.getBlockY() && to.getBlockZ() == from.getBlockZ()) {
-		        return; // did not actually move to a new block. do nothing.
-		    }
-		    else {
-		    	prev.getRelative(BlockFace.UP).setType(Material.FIRE);
+		    double dist = event.getPlayer().getLocation().distance(Main.playersPrevLoc.get(event.getPlayer()));
+		    // Okay my idea is to build an arrayList of block locations of every block
+		    // I've stepped on before the distance is >= 2. Then set all the blocks on fire and update hashmap.
+		    if(dist >= 1) {
+		    	Block toSet = Main.playersPrevLoc.get(event.getPlayer()).subtract(0,1,0).getBlock();
+		    	plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+		    		 
+		    	    @Override
+		    	    public void run() {
+		    	    	toSet.getRelative(BlockFace.UP).setType(Material.FIRE);
+		    	    }
+		    	
+		    	}, 2);
+		    	//Main.playersPrevLoc.get(event.getPlayer()).subtract(0,1,0).getBlock().getRelative(BlockFace.UP).setType(Material.FIRE);
+		    	Main.playersPrevLoc.put(event.getPlayer(), event.getPlayer().getLocation());
 		    }
 		}
     }
